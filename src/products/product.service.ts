@@ -1,8 +1,8 @@
 import { ResponseObject } from "../entities/classes";
-import { Product } from "../entities/products";
+import { IProductService,  Product } from "../entities/products";
 import { ProductManager } from "../services/fs.dao";
 const productManager= new ProductManager<Product>("./src/products/")
-export class ProductService {
+export class ProductService implements IProductService {
     constructor(
         protected dao = productManager,
         public getData = async (limit?:number)=>{
@@ -26,9 +26,11 @@ export class ProductService {
         },
         public addProduct =async (product:Omit<Product,"id">)=>{
             try {
-               return await this.dao.addProduct(product)
+               const response= await this.dao.addProduct(product)
+               return new ResponseObject<Product>(null,true,response as Product)
                 
             }catch(e){console.log(e)}
         }
-    ){}
+    ){
+    }
 }
