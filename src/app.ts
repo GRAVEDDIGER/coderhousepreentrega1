@@ -1,0 +1,8 @@
+import { productRoute } from "./products/products.routes";
+import express from "express"
+const app = express();
+const PORT =8080
+app.use(express.json())
+app.use(express.urlencoded({extended:false}))
+app.use(productRoute)
+app.listen(PORT,()=>console.log(`Connected to port ${PORT}`))
