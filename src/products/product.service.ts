@@ -1,7 +1,7 @@
 import { ResponseObject } from "../entities/classes";
 import { Product } from "../entities/products";
 import { ProductManager } from "../services/fs.dao";
-const productManager= new ProductManager<Product>("./")
+const productManager= new ProductManager<Product>("./src/products/")
 export class ProductService {
     constructor(
         protected dao = productManager,
@@ -23,6 +23,12 @@ export class ProductService {
                 else return new ResponseObject<Product>("Product not found",false,null)
             }
             catch(e){console.log(e)}
+        },
+        public addProduct =async (product:Omit<Product,"id">)=>{
+            try {
+               return await this.dao.addProduct(product)
+                
+            }catch(e){console.log(e)}
         }
     ){}
 }

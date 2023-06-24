@@ -1,6 +1,6 @@
-# Desafio 2 CoderHouse
+# Desafio 3 CoderHouse
 
-## Generic File Sistem Persistance Class
+## Basic Web Server FS persistence
 
 ## Install
 ```bash
@@ -11,8 +11,16 @@ npm install
 ```bash
 npm start
 ```
+## Architecture
 
-## Type Safety
+The server has been implemented using hexagonal layer architecture, theare is a folder products that holds diferent files that provide functionality by abstraction between the diferent layers of the server. 
+The service provides a class that manage the FS.DAO class and gives access to the actual data. 
+The controller is responsable of handeling the user requests and provide the adecuate responses 
+The routes layer singly links the routes to the controller 
+The products.json holds the data
+
+
+## FS DAO Service
 
 To instanciate the class you must provide 2 arguments:
 - 1 The path for the products.json file to be stored
