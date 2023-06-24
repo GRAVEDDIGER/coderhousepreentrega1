@@ -5,10 +5,18 @@ export class ProductController {
         protected service = new ProductService(),
         public getProducts=(req:Request,res:Response)=>{
             const {pid} =req.query
+            console.log("get",pid)
             if (pid !==undefined && typeof pid ==="string"){
                 this.service.getData(parseInt(pid)).then(response=>{
                     if (response?.ok) res.status(200).send(response)
                     else res.status(404).send(response?.error)
+                }).catch(e=>console.log(e))
+            }else {
+                this.service.getData().then(response=>{
+                    if (response?.ok){
+                        res.status(200).send(response)
+                    
+                    }else res.status(404).send(response?.error)
                 }).catch(e=>console.log(e))
             }
         }
