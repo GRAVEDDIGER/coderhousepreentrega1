@@ -19,6 +19,16 @@ The controller is responsable of handeling the user requests and provide the ade
 The routes layer singly links the routes to the controller 
 The products.json holds the data
 
+## API Routes
+* POST /api/carts/ Creates a new Cart body [{pid:string,quantity:number}]
+* POST /api/carts/:cid/product/:pid?quantity=number Adds a new product to the specified cart 
+* GET /api/carts/:cid Shows the products included on the specified cart
+* GET /api/products Shows an array of the products included on the database
+* GET /api/products/:id Returns the product for the specified id
+* POST /api/product Add a new product to the database body:{ code, description, price, stock, thumbnail, title }
+* PUT /api/product Update the product for the specified id provided through body:{ code, description, price, stock, thumbnail, title,id}
+* DELETE /api/product/:id Deletes the product for the specified id
+
 
 ## FS DAO Service
 
