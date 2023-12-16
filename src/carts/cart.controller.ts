@@ -1,11 +1,13 @@
 import { Request, Response } from "express";
 import { CartService } from "./cart.service";
+import { addProductType, createCartType, getCartProductsType } from "./cart.schema";
 
 export class CartController {
     constructor(
         protected service = new CartService(),
-        public createCart = async (req: Request, res: Response) => {
-            const products: { pid: string, quantity: number }[] = req.body
+        public createCart = async (req: Request<any,any,createCartType["body"]>, res: Response) => {
+            const products: createCartType["body"] = req.body
+            
             console.log(products);
             try {
                 const response = await this.service.createCart(products)
@@ -19,7 +21,7 @@ export class CartController {
             }
 
         },
-        public getCartProduct = async (req: Request, res: Response) => {
+        public getCartProduct = async (req: Request<getCartProductsType["params"]>, res: Response) => {
             const { cid } = req.params
             try {
                 const response = await this.service.getById(cid)
@@ -31,7 +33,7 @@ export class CartController {
 
             } catch (error) { console.log(error) }
         },
-        public addProduct = async (req: Request, res: Response) => {
+        public addProduct = async (req: Request<addProductType["params"],any,any,addProductType["query"]>, res: Response) => {
             const { pid, cid } = req.params
             const { quantity } = req.query
             try {

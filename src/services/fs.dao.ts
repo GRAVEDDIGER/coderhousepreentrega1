@@ -15,6 +15,7 @@ export class ProductManager
         protected count = () => ProductManager.PublicId++,
         protected loadData = async () => {
             if (fs.existsSync(path)) this.Products = JSON.parse(await fs.promises.readFile(path, "utf-8"))
+            else fs.promises.writeFile(path,"[]","utf-8").then(()=>this.Products=[])
         },
         public addProduct = async (product: Omit<T, "id">) => {
             try {
@@ -73,8 +74,8 @@ export class ProductManager
         }
 
     ) {
-        if (ProductManager.Instance !== undefined) return ProductManager.Instance
-        else {
+      //  if (ProductManager.Instance !== undefined) return ProductManager.Instance
+       // else {
             if (fs.existsSync(path)) {
                 this.Products = JSON.parse(fs.readFileSync(path, "utf-8"))
 
@@ -83,9 +84,9 @@ export class ProductManager
                 this.Products = []
                 fs.writeFileSync(this.path, JSON.stringify(this.Products))
             }
-            ProductManager.Instance = this
+         //   ProductManager.Instance = this
             return this
-        }
+        //}
 
     }
 }

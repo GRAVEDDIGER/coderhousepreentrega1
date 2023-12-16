@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { ProductService } from "./product.service";
 import { Product } from "../entities/products";
 import { ResponseObject } from '../entities/classes';
+import { addProductType, updateProductType } from "./product.schema";
 export class ProductController {
     constructor(
         protected service = new ProductService(),
@@ -21,8 +22,8 @@ export class ProductController {
                 }).catch(e => console.log(e))
             }
         },
-        public addProduct = async (req: Request, res: Response) => {
-            const { code, description, id, price, stock, thumbnail, title }: Product = req.body
+        public addProduct = async (req: Request<any,any,addProductType["body"]>, res: Response) => {
+            const { code, description,  price, stock, thumbnail, title }: addProductType["body"] = req.body
             const response = await this.service.addProduct({ code, description, price, stock, thumbnail, title })
             if (response !== undefined) res.status(200).send(response)
             else res.status(404).send("Unable to add product")
@@ -35,14 +36,15 @@ export class ProductController {
                 else res.status(404).send(response)
             } catch (e) { console.log(e) }
         },
-        public updateById = async (req: Request, res: Response) => {
-            const product: Partial<Product> & { id: string } = req.body
+        public updateById = async (req: Request<updateProductType["params"],any,updateProductType["body"]>, res: Response) => {
+            const {id}= req.params
+            const product: updateProductType["body"] = req.body
             try {
-                const data: ResponseObject<Product> = await this.service.getById(product.id)
+                const data: ResponseObject<Product> = await this.service.getById(id)
                 let procesedData: Product
                 if (data?.ok) {
                     if (!Array.isArray(data?.data) && data?.data !== null) {
-                        procesedData = { ...data.data, ...product };
+                        procesedData = { ...data.data, ...product,id };
                         const response = await this.service.updateProduct(procesedData)
                         if (response?.ok) {
                             res.status(200).send(response)

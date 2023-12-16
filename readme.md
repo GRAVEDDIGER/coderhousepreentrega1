@@ -29,6 +29,8 @@ The products.json holds the data
 * PUT /api/product Update the product for the specified id provided through body:{ code, description, price, stock, thumbnail, title,id}
 * DELETE /api/product/:id Deletes the product for the specified id
 
+## Zod Schemas and Types
+Ive added to this version zod schema implementation and type inference, altougth ive used the zod types to define req:Request generic types and improve type safety. 
 
 ## FS DAO Service
 
